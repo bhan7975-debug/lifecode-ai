@@ -1,61 +1,98 @@
-import { Sparkles, Hexagon, Component, Layers } from "lucide-react";
+"use client";
+import { useState } from "react";
+import { Sparkles, Hexagon, Component, Layers, RefreshCw, ChevronRight, Home as HomeIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [numbers, setNumbers] = useState<number[]>([]);
+
+  const generateLotto = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const nums = new Set<number>();
+      while(nums.size < 6) nums.add(Math.floor(Math.random() * 45) + 1);
+      setNumbers(Array.from(nums).sort((a, b) => a - b));
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const menuItems = [
+    { id: 'saju', title: '사주 명리 분석', icon: <Sparkles className="w-12 h-12" />, desc: '선천적 기질과 시간의 흐름 데이터를 정밀하게 해독합니다.' },
+    { id: 'enneagram', title: '에니어그램 진단', icon: <Hexagon className="w-12 h-12" />, desc: '내면 동기와 성격적 고착 패턴을 분석합니다.' },
+    { id: 'shape', title: '도형 심리 상담', icon: <Component className="w-12 h-12" />, desc: '무의식적 투영을 통한 현재 심리를 진단합니다.' },
+    { id: 'tarot', title: '타로 심리 분석', icon: <Layers className="w-12 h-12" />, desc: '상징 체계와 동시성 기반의 해법을 도출합니다.' }
+  ];
+
   return (
-    <main className="min-h-screen bg-neutral-950 text-neutral-100 p-6 md:p-12 font-sans selection:bg-cyan-500/30">
-      <div className="max-w-4xl mx-auto space-y-12">
+    <main className="min-h-screen bg-transparent text-white">
+      {/* 고정 네비게이션 */}
+      <nav className="fixed top-0 left-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/5 px-6 py-5 flex justify-between items-center">
+        <span className="text-2xl font-black italic text-gold tracking-tighter drop-shadow-[0_0_10px_rgba(207,163,86,0.3)]">LifeCode AI</span>
+        <div className="p-3 bg-zinc-900 rounded-full text-zinc-500">
+          <HomeIcon className="w-6 h-6" />
+        </div>
+      </nav>
+
+      <div className="max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-16 md:space-y-24 flex flex-col items-center">
         
-        {/* 헤더 섹션 */}
-        <header className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-            LifeCode AI
-          </h1>
-          <p className="text-neutral-400 text-lg">데이터로 설계하는 당신의 내일</p>
+        <header className="text-center space-y-6">
+          <h1 className="text-5xl md:text-9xl font-black italic tracking-tighter text-gold">LifeCode AI</h1>
+          <p className="text-zinc-500 text-lg md:text-xl font-light tracking-[0.4em] uppercase border-y border-zinc-900 py-4 w-full max-w-lg">Premium Analysis System</p>
         </header>
 
-        {/* 4대 진단 모듈 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Link href="/saju" className="group p-6 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-cyan-500/50 transition-all duration-300">
-            <Sparkles className="w-8 h-8 text-cyan-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-2">사주 명리 분석</h2>
-            <p className="text-neutral-500">통계적 기질과 다가오는 기회의 타이밍을 확인하세요.</p>
-          </Link>
-
-          <Link href="/enneagram" className="group p-6 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-purple-500/50 transition-all duration-300">
-            <Hexagon className="w-8 h-8 text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-2">에니어그램 진단</h2>
-            <p className="text-neutral-500">9가지 성격 유형을 통해 내면의 동기와 강점을 파악하세요.</p>
-          </Link>
-
-          <Link href="/shape" className="group p-6 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-emerald-500/50 transition-all duration-300">
-            <Component className="w-8 h-8 text-emerald-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-2">도형 심리 상담</h2>
-            <p className="text-neutral-500">무의식적인 선택으로 현재의 결핍과 필요를 진단합니다.</p>
-          </Link>
-
-          <Link href="/tarot" className="group p-6 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-amber-500/50 transition-all duration-300">
-            <Layers className="w-8 h-8 text-amber-400 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-2">타로 심리 분석</h2>
-            <p className="text-neutral-500">직관적인 상징을 통해 당면한 문제의 돌파구를 찾습니다.</p>
-          </Link>
+        {/* 2x2 그리드: 모바일 가독성 최적화 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+          {menuItems.map((m) => (
+            <Link key={m.id} href={`/test/${m.id}`} className="group p-10 md:p-14 rounded-[40px] md:rounded-[60px] luxury-card cursor-pointer">
+              <div className="mb-8 md:mb-10 text-[#CFA356] group-hover:scale-110 transition-transform duration-500">{m.icon}</div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-gold group-hover:brightness-125 transition-all">{m.title}</h2>
+              <p className="text-zinc-500 text-lg md:text-xl font-light leading-relaxed mb-8 md:mb-10 break-keep max-w-xs">{m.desc}</p>
+              <div className="mt-auto flex items-center gap-2 text-[#CFA356] font-bold tracking-widest uppercase text-sm opacity-40 group-hover:opacity-100">
+                Start Session <ChevronRight className="w-5 h-5" />
+              </div>
+            </Link>
+          ))}
         </div>
 
-        {/* 로또 번호 생성 트리거 (애드센스 유도용) */}
-        <div className="mt-12 p-8 rounded-2xl bg-gradient-to-br from-neutral-900 to-neutral-800 border border-neutral-700 text-center">
-          <h3 className="text-xl font-bold mb-4">오늘의 기운에 동기화된 행운 번호</h3>
-          <button className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold rounded-full transition-colors shadow-[0_0_15px_rgba(8,145,178,0.5)]">
-            로또 번호 추출하기
-          </button>
-        </div>
+        {/* 하단 로또 섹션 */}
+        <section className="luxury-card rounded-[40px] md:rounded-[60px] p-10 md:p-20 w-full max-w-5xl space-y-12 relative overflow-hidden">
+          <div className="space-y-4 relative z-10">
+            <h3 className="text-3xl md:text-4xl font-black text-gold italic">Fortune Decoder</h3>
+            <p className="text-zinc-500 text-lg md:text-xl font-light">에너지 주파수 기반 행운 번호</p>
+          </div>
+          
+          <div className="flex flex-col items-center gap-14 relative z-10">
+            <div className="min-h-[80px] flex items-center justify-center">
+              {isLoading ? (
+                <div className="flex items-center gap-4 text-[#CFA356] font-mono tracking-widest text-xl md:text-2xl animate-pulse">
+                  <RefreshCw className="w-8 h-8 animate-spin" /> SYNCHRONIZING
+                </div>
+              ) : numbers.length > 0 ? (
+                <div className="flex gap-4 flex-wrap justify-center">
+                  {numbers.map((n, index) => (
+                    <div 
+                      key={`${n}-${index}`} 
+                      className="w-14 h-14 md:w-18 md:h-18 rounded-2xl md:rounded-3xl bg-zinc-950 border-2 border-[#CFA356]/40 flex items-center justify-center font-black text-2xl md:text-4xl text-[#CFA356] shadow-[0_0_30px_rgba(207,163,86,0.3)] animate-number-pop"
+                      style={{ animationDelay: `${index * 150}ms` }}
+                    >
+                      {n}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="animate-shimmer-text text-xl md:text-2xl tracking-[0.5em] uppercase font-light border-b border-zinc-900 pb-2">Awaiting Calibration</div>
+              )}
+            </div>
+            
+            <button onClick={generateLotto} className="px-12 md:px-20 py-5 md:py-7 bg-gradient-to-r from-[#f1d592] to-[#CFA356] text-black font-black text-xl md:text-2xl rounded-2xl md:rounded-3xl hover:shadow-[0_0_40px_rgba(207,163,86,0.4)] active:scale-95 transition-all">
+              EXTRACT NUMBERS
+            </button>
+          </div>
+        </section>
 
-        {/* 푸터 (완충 문구) */}
-        <footer className="pt-12 border-t border-neutral-800 text-center">
-          <p className="text-xs text-neutral-600 leading-relaxed">
-            본 웹페이지는 사주학적 통계와 현대 심리학 데이터를 기반으로 한 라이프 데이터 분석 도구입니다.<br/>
-            제공되는 모든 리포트와 분석 멘트는 이용자의 자기계발과 영감을 돕기 위한 재미 및 참고용으로 구성되었습니다.<br/>
-            특정 종교와 무관하며, 당신의 잠재력을 발견하는 즐거운 여정으로 활용하시기 바랍니다.
-          </p>
+        <footer className="text-center pt-10 text-[10px] text-zinc-800 tracking-[0.6em] font-mono uppercase w-full max-w-5xl border-t border-zinc-900">
+          © 2026 lifecode ai / premium analysis suite
         </footer>
       </div>
     </main>

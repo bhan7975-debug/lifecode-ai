@@ -1,5 +1,6 @@
-import { ChevronLeft, Calendar, FileText } from "lucide-react";
+import { ChevronLeft, Calendar, FileText, Home } from "lucide-react";
 import Link from "next/link";
+import GNB from "@/components/GNB";
 
 // 임시 데이터 베이스 (추후 마크다운이나 DB 연동으로 교체 가능)
 const MOCK_DB = {
@@ -24,10 +25,13 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-neutral-100 p-6 md:p-12 font-sans selection:bg-cyan-500/30">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <main className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-cyan-500/30">
+      {/* 공통 GNB 적용 */}
+      <GNB />
+
+      <div className="max-w-3xl mx-auto px-6 pt-28 pb-12 space-y-8">
         
-        {/* 상단 네비게이션 */}
+        {/* 서브 네비게이션 */}
         <nav>
           <Link href="/" className="inline-flex items-center text-sm text-neutral-400 hover:text-cyan-400 transition-colors">
             <ChevronLeft className="w-4 h-4 mr-1" />
