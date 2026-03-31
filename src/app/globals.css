@@ -213,20 +213,46 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0.8;
 }
 
-/* 타로 카드 3D 플립 애니메이션 */
-.perspective-1000 {
-  perspective: 1000px;
+/* --- 기존 상단 코드 유지 --- */
+
+/* 날짜 입력창 기본 캘린더 아이콘 골드 색상 보정 */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(67%) sepia(34%) saturate(614%) hue-rotate(1deg) brightness(92%) contrast(88%);
+  cursor: pointer;
+  opacity: 0.8;
 }
 
+/* =========================================
+   [수정 및 통합] 타로 카드 3D 플립 & 커스텀 스크롤바 
+   ========================================= */
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #111111;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CFA356;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #AA7C4D;
+}
+
+/* 3D Card Flip Perspective (중복 제거 및 통합) */
+.perspective {
+  perspective: 1500px;
+}
 .preserve-3d {
   transform-style: preserve-3d;
 }
-
-.backface-hidden {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
 .rotate-y-180 {
   transform: rotateY(180deg);
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Safari, iOS 호환성 강제 유지 */
 }

@@ -34,7 +34,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-16 md:space-y-24 flex flex-col items-center">
+      <div className="max-w-6xl mx-auto px-6 pt-48 pb-24 space-y-16 md:space-y-24 flex flex-col items-center">
         
         <header className="text-center space-y-6">
           <h1 className="text-5xl md:text-9xl font-black italic tracking-tighter text-gold">LifeCode AI</h1>

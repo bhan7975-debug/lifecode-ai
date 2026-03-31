@@ -29,7 +29,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       {/* 공통 GNB 적용 */}
       <GNB />
 
-      <div className="max-w-3xl mx-auto px-6 pt-28 pb-12 space-y-8">
+      <div className="max-w-3xl mx-auto px-6 pt-48 pb-12 space-y-8">
         
         {/* 서브 네비게이션 */}
         <nav>
